@@ -3,6 +3,7 @@ import { fetchCoinHistory } from "./api";
 import ApexChart from "react-apexcharts";
 import { DateRange } from "@material-ui/icons";
 import styled from "styled-components";
+import { arrayBuffer } from "stream/consumers";
 
 const ChartLoader = styled.div`
   display: flex;
@@ -27,29 +28,33 @@ interface ChartProps {
 }
 
 function Chart({ coinId }: ChartProps) {
-  const { isLoading, data } = useQuery<IHistorical[]>(["ohlcv", coinId], () =>
-    fetchCoinHistory(coinId),
+  const { isLoading, data } = useQuery<IHistorical[]>(
+    ["ohlcv", coinId],
+    () => fetchCoinHistory(coinId),
     {
-        refetchInterval: 10000
+      refetchInterval: 10000,
     }
   );
+
   return (
     <div>
       {isLoading ? (
         <ChartLoader>Loading chart ...</ChartLoader>
       ) : (
-        <ApexChart
-          type="line"
+        <ApexChart style={{color: "#333"}}
+          type="candlestick"
           series={[
             {
-              name: "price",
-              data: data?.map((price) => price.close) ?? [],
+              data: data?.map((price) => ({
+                x: price.time_close,
+                y: [price.open.toFixed(2),
+                    price.high.toFixed(2),
+                    price.low.toFixed(2),
+                    price.close.toFixed(2)],
+              })) ?? [],
             },
           ]}
           options={{
-            theme: {
-              mode: "dark",
-            },
             chart: {
               height: 300,
               width: 500,
@@ -62,11 +67,13 @@ function Chart({ coinId }: ChartProps) {
               show: false,
             },
             stroke: {
-              curve: "smooth",
-              width: 4,
+              width: 2,
             },
             yaxis: {
               show: false,
+              tooltip: {
+                enabled: true
+              }
             },
             xaxis: {
               labels: {
@@ -79,19 +86,23 @@ function Chart({ coinId }: ChartProps) {
                 show: false,
               },
               type: "datetime",
-              categories: data?.map((price) => price.time_close) ?? []
+              categories: data?.map((price) => price.time_close) ?? [],
             },
             fill: {
-              type: "gradient",
-              gradient: { gradientToColors: ["blue"],
-                          stops: [0, 100]},
+              type: "solid",
+              gradient: { 
+                gradientToColors: ["blue"], 
+                stops: [0, 100],
+                type: "horizontal"
+              },
             },
-            colors: ["red"],
             tooltip: {
-                y: {
-                    formatter: (value) => `$ ${value.toFixed(3)}`
-                },
-            }
+              enabled: true,
+              y: {
+                formatter: (value) => `$ ${value.toFixed(3)}`,
+              },
+            },
+            // labels: data?.map((price) => price.time_close)
           }}
         />
       )}

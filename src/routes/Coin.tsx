@@ -78,18 +78,20 @@ const Tabs = styled.div`
   gap: 10px;
 `;
 
-const Tab = styled.span<{ isActive: boolean }>`
+const Tab = styled.div<{ isActive: boolean }>`
   text-align: center;
   text-transform: uppercase;
   font-size: 12px;
   font-weight: 400;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: ${(props) => props.isActive ? props.theme.accentColor : "rgba(0, 0, 0, 0.5)"};
   padding: 7px 0px;
   border-radius: 10px;
-  color: ${(props) =>
-    props.isActive ? props.theme.accentColor : props.theme.textColor};
+  color: white;
   a {
     display: block;
+  }
+  &:hover {
+    transition: background-color 0.2s ease-in;
   }
 `;
 
@@ -191,7 +193,7 @@ function Coin() {
     <Container>
       <Helmet>
         <title>
-          {state?.name ? state.name : loading ? "Loading..." : infoData?.name}
+          🪙 {state?.name ? state.name : loading ? "Loading..." : infoData?.name}
         </title>
       </Helmet>
       <Header>
@@ -212,11 +214,11 @@ function Coin() {
             </OverviewItem>
             <OverviewItem>
               <span>Symbol:</span>
-              <span>${infoData?.symbol}</span>
+              <span>{infoData?.symbol}</span>
             </OverviewItem>
             <OverviewItem>
               <span>Price:</span>
-              <span>{tickersData?.quotes.USD.price.toFixed(3)}</span>
+              <span>$ {tickersData?.quotes.USD.price.toFixed(3)}</span>
             </OverviewItem>
           </Overview>
           <Description>{infoData?.description}</Description>
@@ -243,7 +245,7 @@ function Coin() {
           <Switch>
             <Route path={`/${coinId}/price`}>
               {/* == <Route path={`/:coinId/price`}> (변수명으로 둬도 리액트돔이 이해함) */}
-              <Price />
+              <Price coinId={coinId} />
             </Route>
             <Route path={`/${coinId}/chart`}>
               <Chart coinId={coinId} />
