@@ -4,6 +4,8 @@ import ApexChart from "react-apexcharts";
 import { DateRange } from "@material-ui/icons";
 import styled from "styled-components";
 import { arrayBuffer } from "stream/consumers";
+import { useRecoilValue } from "recoil";
+import { isDarkAtom } from "./atoms";
 
 const ChartLoader = styled.div`
   display: flex;
@@ -25,10 +27,9 @@ interface IHistorical {
 
 interface ChartProps {
   coinId: string;
-  isDark: boolean;
 }
 
-function Chart({ coinId, isDark }: ChartProps) {
+function Chart({ coinId }: ChartProps) {
   const { isLoading, data } = useQuery<IHistorical[]>(
     ["ohlcv", coinId],
     () => fetchCoinHistory(coinId),
@@ -36,6 +37,7 @@ function Chart({ coinId, isDark }: ChartProps) {
       refetchInterval: 10000,
     }
   );
+  const isDark = useRecoilValue(isDarkAtom);
 
   return (
     <div>

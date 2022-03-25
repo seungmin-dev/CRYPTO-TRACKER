@@ -4,6 +4,8 @@ import styled from "styled-components";
 import { useQuery } from "react-query";
 import { fetchCoins } from "../api";
 import { Helmet } from "react-helmet";
+import { useSetRecoilState } from "recoil";
+import { isDarkAtom } from "../atoms";
 
 const Container = styled.div`
   padding: 0 20px;
@@ -69,11 +71,11 @@ interface ICoin {
 }
 
 interface ICoinsProps {
-  toggleDark: () => void;
-  isDark: boolean;
 }
 
-function Coins({toggleDark, isDark}:ICoinsProps) {
+function Coins({} : ICoinsProps) {
+  const setDarkAtom = useSetRecoilState(isDarkAtom);
+  const toggleDarkAtom = () => setDarkAtom(prev => !prev);
   const { isLoading, data } = useQuery<ICoin[]>("AllCoins", fetchCoins);
   // const [coins, setCoins] = useState<ICoin[]>([]); // ([]) => default로 빈 array가 지정된 것
   // const [loading, setLoading] = useState(true);
@@ -93,7 +95,7 @@ function Coins({toggleDark, isDark}:ICoinsProps) {
       </Helmet>
       <Header>
         <Title>Coins</Title>
-        <button onClick={toggleDark}>🌞</button>
+        <button onClick={toggleDarkAtom}>🌞</button>
       </Header>
       {isLoading ? (
         <Loader>Loading ...</Loader>
