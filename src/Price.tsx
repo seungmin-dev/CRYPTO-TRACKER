@@ -42,7 +42,7 @@ interface IPrice {
 
 const PercentChangeBox = styled.div`
   display: flex;
-  background-color: rgba(0,0,0,0.5);
+  background-color: ${(props) => props.theme.overViewColor};
   padding: 10px 20px;
   border-radius: 10px;
   justify-content: space-between;
@@ -59,17 +59,17 @@ const PercentChange = styled.div`
 `;
 
 const AthTitle = styled.div`
-    color: ${(props) => props.theme.textColor};
-    background-color: ${(props) => props.theme.accentColor};
-    font-size: 16px;
-    padding: 10px 20px;
-    border-radius: 10px;
-    margin-bottom: 12px;
-    text-align: center;
+  color: ${(props) => props.theme.textColor};
+  background-color: ${(props) => props.theme.accentColor};
+  font-size: 16px;
+  padding: 10px 20px;
+  border-radius: 10px;
+  margin-bottom: 12px;
+  text-align: center;
 `;
 
 const Ath = styled.div`
-    color: ${(props) => props.theme.textColor};
+  color: ${(props) => props.theme.textColor};
 `;
 
 function Price({ coinId }: IPrice) {
@@ -87,35 +87,47 @@ function Price({ coinId }: IPrice) {
         "Loading Price ... "
       ) : (
         <>
-        <PercentChangeBox>
-          <PercentChangeTitle>Percent Change 15m</PercentChangeTitle>
-          <PercentChange>{data?.quotes.USD.percent_change_15m} %</PercentChange>
-        </PercentChangeBox>
-        <PercentChangeBox>
-          <PercentChangeTitle>Percent Change 30m</PercentChangeTitle>
-          <PercentChange>{data?.quotes.USD.percent_change_30m} %</PercentChange>
-        </PercentChangeBox>
-        <PercentChangeBox>
-          <PercentChangeTitle>Percent Change 1h</PercentChangeTitle>
-          <PercentChange>{data?.quotes.USD.percent_change_1h} %</PercentChange>
-        </PercentChangeBox>
-        <PercentChangeBox>
-          <PercentChangeTitle>Percent Change 6h</PercentChangeTitle>
-          <PercentChange>{data?.quotes.USD.percent_change_6h} %</PercentChange>
-        </PercentChangeBox>
-        <PercentChangeBox>
-          <PercentChangeTitle>Percent Change 12h</PercentChangeTitle>
-          <PercentChange>{data?.quotes.USD.percent_change_12h} %</PercentChange>
-        </PercentChangeBox>
-        <PercentChangeBox>
-          <PercentChangeTitle>Percent Change 24h</PercentChangeTitle>
-          <PercentChange>{data?.quotes.USD.percent_change_24h} %</PercentChange>
-        </PercentChangeBox>
-        <AthTitle>All Time High</AthTitle>
-        <PercentChangeBox>
+          <PercentChangeBox>
+            <PercentChangeTitle>Percent Change 15m</PercentChangeTitle>
+            <PercentChange>
+              {data?.quotes.USD.percent_change_15m} %
+            </PercentChange>
+          </PercentChangeBox>
+          <PercentChangeBox>
+            <PercentChangeTitle>Percent Change 30m</PercentChangeTitle>
+            <PercentChange>
+              {data?.quotes.USD.percent_change_30m} %
+            </PercentChange>
+          </PercentChangeBox>
+          <PercentChangeBox>
+            <PercentChangeTitle>Percent Change 1h</PercentChangeTitle>
+            <PercentChange>
+              {data?.quotes.USD.percent_change_1h} %
+            </PercentChange>
+          </PercentChangeBox>
+          <PercentChangeBox>
+            <PercentChangeTitle>Percent Change 6h</PercentChangeTitle>
+            <PercentChange>
+              {data?.quotes.USD.percent_change_6h} %
+            </PercentChange>
+          </PercentChangeBox>
+          <PercentChangeBox>
+            <PercentChangeTitle>Percent Change 12h</PercentChangeTitle>
+            <PercentChange>
+              {data?.quotes.USD.percent_change_12h} %
+            </PercentChange>
+          </PercentChangeBox>
+          <PercentChangeBox>
+            <PercentChangeTitle>Percent Change 24h</PercentChangeTitle>
+            <PercentChange>
+              {data?.quotes.USD.percent_change_24h} %
+            </PercentChange>
+          </PercentChangeBox>
+          <AthTitle>All Time High</AthTitle>
+          <PercentChangeBox>
             <Ath>{data?.quotes.USD.ath_date}</Ath>
             <Ath>${data?.quotes.USD.ath_price.toFixed(2)}</Ath>
-        </PercentChangeBox>
+          </PercentChangeBox>
         </>
       )}
     </div>

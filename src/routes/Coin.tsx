@@ -28,13 +28,6 @@ const Header = styled.header`
   position: relative;
 `;
 
-const HomeBtn = styled.div`
-  font-size: 35px;
-  text-align: center;
-  position: absolute;
-  left: 0;
-`;
-
 const Title = styled.h1`
   font-size: 34px;
   color: ${(props) => props.theme.accentColor};
@@ -48,7 +41,7 @@ const Loader = styled.span`
 const Overview = styled.div`
   display: flex;
   justify-content: space-between;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: ${(props) => props.theme.overViewColor};
   padding: 10px 20px;
   border-radius: 10px;
 `;
@@ -83,10 +76,11 @@ const Tab = styled.div<{ isActive: boolean }>`
   text-transform: uppercase;
   font-size: 12px;
   font-weight: 400;
-  background-color: ${(props) => props.isActive ? props.theme.accentColor : "rgba(0, 0, 0, 0.5)"};
+  background-color: ${(props) =>
+    props.isActive ? props.theme.accentColor : props.theme.overViewColor};
   padding: 7px 0px;
   border-radius: 10px;
-  color: white;
+  color: ${(props) => props.theme.textColor};
   a {
     display: block;
   }
@@ -193,12 +187,11 @@ function Coin() {
     <Container>
       <Helmet>
         <title>
-          🪙 {state?.name ? state.name : loading ? "Loading..." : infoData?.name}
+          🪙{" "}
+          {state?.name ? state.name : loading ? "Loading..." : infoData?.name}
         </title>
       </Helmet>
       <Header>
-        <HomeBtn>
-          <Link to={`/`}>🏠</Link></HomeBtn>
         <Title>
           {state?.name ? state.name : loading ? "Loading..." : infoData?.name}
         </Title>
